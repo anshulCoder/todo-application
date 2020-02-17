@@ -1,0 +1,22 @@
+{
+  "name": "todo_application",
+  "version": "1.0.0",
+  "description": "Todo Application",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anshulCoder/todo-application.git"
+  },
+  "keywords": [
+    "todo"
+  ],
+  "author": "Anshul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anshulCoder/todo-application/issues"
+  },
+  "homepage": "https://github.com/anshulCoder/todo-application#readme"
+}
