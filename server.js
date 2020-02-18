@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var Todo = require('./controllers/todos');
+const cors = require('cors');
 
 
 var port = 9000;
@@ -10,6 +11,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
+app.use(cors());
 
 
 /*  "/todos"

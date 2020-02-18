@@ -1,0 +1,25 @@
+<div class="container">
+  <br>
+  <button type="button" class="btn btn-primary m-2" (click)="addNewTask()">Add New TODO</button>
+  <br>
+  <div class="todo-wrapper">
+  	<ng-template *ngIf="todoList.length>0; else noList">
+  		<div class="list-group">
+		  <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let todo of todoList">
+		    <div class="d-flex w-100 justify-content-between">
+		      <h5 class="mb-1">{{ todo["task_name"] }}</h5>
+		      <small>{{ todo["task_due_date"] }}</small>
+		    </div>
+		    <p class="mb-1">{{ todo["task_description"] }}</p>
+		    <a href="#" class="mark-complete-icon" (click)="markAsComplete(this)" [attr.data-task_id]="todo['_id']" *ngIf="todo['task_status'] == 0"><i class="fa fa-check-circle-o"></i></a>
+		    <a href="#" class="delete-icon" (click)="deleteTask(this)" [attr.data-task_id]="todo['_id']" ><i class="fa fa-trash"></i></a>
+		  </div>
+		</div>
+  	</ng-template>
+  	
+	<ng-template #noList>
+		<h5>No Tasks Found</h5>
+	</ng-template>
+  </div>
+</div>
+<br>
