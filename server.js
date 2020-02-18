@@ -15,15 +15,25 @@ app.use(bodyParser.json());
 /*  "/todos"
  *    GET: finds all todos
  */
-
 app.get("/todos", Todo.get_all_todos);
 
 
 /*  "/todos"
  *    POST: create a todo
  */
-
 app.post("/todos", Todo.validate, Todo.create_todo);
+
+
+/*  "/todos/:task_id/mark-complete"
+ *    PUT: Marking a todo as complete
+ */
+app.put("/todos/:task_id/mark-complete", Todo.mark_task_complete);
+
+
+/*  "/todos/:task_id"
+ *    DELETE: Deleting a todo
+ */
+app.delete("/todos/:task_id", Todo.soft_delete_task);
 
 
 //listening to app
