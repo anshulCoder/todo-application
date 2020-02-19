@@ -1,4 +1,4 @@
-const config = require('../config/development');
+const config = require('../config/production');
 const { body, validationResult } = require('express-validator');
 const MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
