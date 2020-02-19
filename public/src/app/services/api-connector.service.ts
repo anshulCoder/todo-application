@@ -43,9 +43,9 @@ export class ApiConnectorService {
     return promise;
   }
 
-  postMasterData(postData: any,
+  postTodo(postData: any,
              params?: any): any {
-    let whichAPI = 'invoke_master';
+    let whichAPI = 'todos';
 
     let customParams = new HttpParams({
       fromObject : params
@@ -54,6 +54,73 @@ export class ApiConnectorService {
     let promise = new Promise((resolve, reject) => {
       this.httpService.postRequest(API_URL+whichAPI,
         postData,
+        null,
+        customParams)
+        .toPromise()
+        .then(
+          res => { // Success
+            resolve(res.body);
+          }
+        )
+        .catch(error => {
+          this.shareService.loadingEmit.emit({
+            loading: false
+          });
+          this.shareService.alertEmit.emit({
+            showAlert: true,
+            aText: error,
+            aType: 'error'
+          });
+        })
+    });
+    return promise;
+  }
+
+
+  markTodoComplete(postData: any,
+             taskId: string,
+             params?: any): any {
+    let whichAPI = 'todos/'+taskId+'/mark-complete';
+
+    let customParams = new HttpParams({
+      fromObject : params
+    });
+
+    let promise = new Promise((resolve, reject) => {
+      this.httpService.putRequest(API_URL+whichAPI,
+        postData,
+        null,
+        customParams)
+        .toPromise()
+        .then(
+          res => { // Success
+            resolve(res.body);
+          }
+        )
+        .catch(error => {
+          this.shareService.loadingEmit.emit({
+            loading: false
+          });
+          this.shareService.alertEmit.emit({
+            showAlert: true,
+            aText: error,
+            aType: 'error'
+          });
+        })
+    });
+    return promise;
+  }
+
+  deleteTodo(taskId: string,
+             params?: any): any {
+    let whichAPI = 'todos/'+taskId;
+
+    let customParams = new HttpParams({
+      fromObject : params
+    });
+
+    let promise = new Promise((resolve, reject) => {
+      this.httpService.deleteRequest(API_URL+whichAPI,
         null,
         customParams)
         .toPromise()

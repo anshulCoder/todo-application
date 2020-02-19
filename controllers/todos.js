@@ -17,7 +17,7 @@ client.connect(err => {
 exports.get_all_todos = (req, res, next) => {
 	db.collection(config.TODO_COLLECTION).find({
 		deleted_at: null
-	}).sort({task_due_date: -1}).toArray(function(err, docs) {
+	}).sort({task_due_date: 1}).toArray(function(err, docs) {
 		if (err) {
 			res.status(500).json({status: false, error_msg: "Failed to fetch tasks"});
 	    } else {

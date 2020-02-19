@@ -1,21 +1,24 @@
 <div class="container">
+	<h3 class="text-center mt-5 mb-3">To-Do Tracker Application</h3>
   <br>
-  <button type="button" class="btn btn-primary m-2" (click)="addNewTask()">Add New TODO</button>
+  <button type="button" class="btn btn-primary mb-5" (click)="newTodoModal.show()">Add New TODO</button>
   <br>
   <div class="todo-wrapper">
-  	<ng-template *ngIf="todoList.length>0; else noList">
-  		<div class="list-group">
-		  <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let todo of todoList">
-		    <div class="d-flex w-100 justify-content-between">
-		      <h5 class="mb-1">{{ todo["task_name"] }}</h5>
-		      <small>{{ todo["task_due_date"] }}</small>
-		    </div>
-		    <p class="mb-1">{{ todo["task_description"] }}</p>
-		    <a href="#" class="mark-complete-icon" (click)="markAsComplete(this)" [attr.data-task_id]="todo['_id']" *ngIf="todo['task_status'] == 0"><i class="fa fa-check-circle-o"></i></a>
-		    <a href="#" class="delete-icon" (click)="deleteTask(this)" [attr.data-task_id]="todo['_id']" ><i class="fa fa-trash"></i></a>
-		  </div>
+  	<ng-container *ngIf="todoList.length>0; else noList">
+  		<div class="row border p-4 mb-2" *ngFor="let todo of todoList">
+  			<div class="col-sm-2 d-flex justify-content-center align-items-center border-right">
+  				<h3>{{ todo["task_due_date"] | date:'mediumDate' }}</h3>
+  			</div>
+  			<div class="col-sm-8">
+  				<h5 class="mb-1">{{ todo["task_name"] }}</h5>
+  				<p class="mb-1">{{ todo["task_description"] }}</p>
+  			</div>
+  			<div class="col-sm-2 border-left d-flex justify-content-around align-items-center">
+  				<a #markCompleteEl href="#" class="mark-complete-icon" (click)="markAsComplete(markCompleteEl)" [attr.data-task_id]="todo['_id']" *ngIf="todo['task_status'] == 0" tooltip="Mark As Complete"><i class="fa fa-check-circle-o fa-2x"></i></a>
+		    	<a #markDeleteEl href="#" class="delete-icon" (click)="deleteTask(markDeleteEl)" [attr.data-task_id]="todo['_id']" tooltip="Delete TODO"><i class="fa fa-trash fa-2x"></i></a>
+  			</div>
 		</div>
-  	</ng-template>
+  	</ng-container>
   	
 	<ng-template #noList>
 		<h5>No Tasks Found</h5>
@@ -23,3 +26,34 @@
   </div>
 </div>
 <br>
+
+<div class="modal fade" bsModal #newTodoModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">Add To-Do</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="newTodoModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form" #todoForm="ngForm" (ngSubmit)="saveTodo(todoForm)">
+	      <div class="form-group">
+	        <label for="task_name">Task Name:</label>
+	        <input type="text" class="form-control" ngModel placeholder="Go Shopping" name="task_name" id="task_name" required>
+	      </div>
+	      <div class="form-group">
+	        <label for="task_description">Description:</label>
+	        <textarea class="form-control" ngModel name="task_description" id="task_description" required></textarea>
+	      </div>
+	      <div class="form-group">
+	        <label for="task_due_date">Due Date:</label>
+	        <input type="text" class="form-control" ngModel name="task_due_date" id="task_due_date" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" placement="top" [minDate]="minDate" required>
+	      </div>
+	      <button type="submit" class="btn btn-primary" [disabled]="!todoForm.valid">Submit</button>
+	    </form>
+      </div>
+    </div>
+  </div>
+</div>
